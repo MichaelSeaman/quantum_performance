@@ -23,8 +23,8 @@ python3 quantum_performance.py -i INPUTFILE.mid -w OUTPUT_WAV_FILE.wav -m OUTPUT
 ```
 The created midi or wav files should be in the directory you ran the program from.
 The '-w' argument specifies the outputted .wav audio file, and the '-m' specifies
-the outputted .mid file. Either can be omitted, but at least one has to be
-present.
+the outputted .mid file. If both are omitted, then audio will just play from
+the host shell.
 
 
 ## Technical Specification

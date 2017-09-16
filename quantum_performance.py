@@ -52,10 +52,10 @@ def main(argv):
         print("Outputing midi data to ", OUTPUT_MIDI_FILE_NAME)
 
     if(not OUTPUT_MIDI and not OUTPUT_WAV):
-        print("No output selected. Restart and specify output by adding -m or -w")
-        print("Example:")
+        print("No output selected. Defaulting to audio from console.")
+        print("NOTE: If you want to save your performance, Restart and specify")
+        print("output by adding -m or -w.  EXAMPLE: ")
         print("$ python quantum_performance.py -i input.mid -w output_wav_file_name.wav")
-        sys.exit(0)
 
     # run midi to csv
     midiInputFileName, _ = os.path.splitext(os.path.basename(MIDI_INPUT_FILE))
@@ -87,19 +87,28 @@ def main(argv):
 
     print("Creating quanumized midi file at ", OUTPUT_MIDI_FILE_NAME)
     os.system("csvmidi {} {}".format(csvFileName, OUTPUT_MIDI_FILE_NAME))
-
+    os.remove(csvFileName)
     #call Timidity
-    if(not OUTPUT_WAV):
-        sys.exit(0)
 
-    print("Creating synthesized wav file at ", OUTPUT_WAV_FILE_NAME)
-    os.system("timidity {} -Ow -o {}".format(OUTPUT_MIDI_FILE_NAME, OUTPUT_WAV_FILE_NAME))
-
-    if(not OUTPUT_MIDI):
+    if(not OUTPUT_WAV and not OUTPUT_MIDI):
+        # If neither option is selected, play wav to console
+        os.system("timidity {}".format(OUTPUT_MIDI_FILE_NAME))
         print("Cleaning up.")
         os.remove(OUTPUT_MIDI_FILE_NAME)
+    elif(not OUTPUT_WAV and OUTPUT_MIDI):
+        pass
+    elif(OUTPUT_WAV and not OUTPUT_MIDI):
+        print("Creating synthesized wav file at ", OUTPUT_WAV_FILE_NAME)
+        os.system("timidity {} -Ow -o {}".format(OUTPUT_MIDI_FILE_NAME, OUTPUT_WAV_FILE_NAME))
+        print("Cleaning up.")
+        os.remove(OUTPUT_MIDI_FILE_NAME)
+    else:
+        # Output both
+        print("Creating synthesized wav file at ", OUTPUT_WAV_FILE_NAME)
+        os.system("timidity {} -Ow -o {}".format(OUTPUT_MIDI_FILE_NAME, OUTPUT_WAV_FILE_NAME))
 
-    print("All done. Wav file at ", OUTPUT_WAV_FILE_NAME)
+    print("All done.")
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
