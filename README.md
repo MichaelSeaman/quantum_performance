@@ -1,6 +1,9 @@
 # quantum_performance
 Handing midi files to an electron
 
+# TODO: FINISH MAIN.PY
+
+
 ## Dependencies
 
 * [TiMidiTy](http://timidity.sourceforge.net/)
