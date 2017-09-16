@@ -11,6 +11,6 @@ def rewrite_csv(csv_in, tracklist):
             for line_number in (note_off_line_number, note_on_line_number):
                 row = rows[line_number]
                 cells = row.split(", ")
-                cells[4] = quantum_note
+                cells[4] = str(quantum_note)
                 rows[line_number] = ', '.join(cells)
     return(rows)

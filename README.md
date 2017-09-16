@@ -1,17 +1,35 @@
 # quantum_performance
 Handing midi files to an electron
 
-# TODO: FINISH MAIN.PY
+## What's going on?
 
+Aaron, this is where you're the expert.
 
 ## Dependencies
+
+To get started, quantum performance will need the following command line
+ programs installed:
 
 * [TiMidiTy](http://timidity.sourceforge.net/)
 * [midicsv](http://www.fourmilab.ch/webtools/midicsv/)
 
+Also, make sure that python3 is installed on your machine
+
+## Usage
+
+Run the quantum simulation with
+```
+python3 quantum_performance.py -i INPUTFILE.mid -w OUTPUT_WAV_FILE.wav -m OUTPUT_WAV_FILE.mid
+```
+The created midi or wav files should be in the directory you ran the program from.
+The '-w' argument specifies the outputted .wav audio file, and the '-m' specifies
+the outputted .mid file. Either can be omitted, but at least one has to be
+present.
+
+
 ## Technical Specification
 
-## Midi to CSV to Midi
+### Midi to CSV to Midi
 Conversion will be done with [midicsv](http://www.fourmilab.ch/webtools/midicsv/#Download)
 Luckily this is on brew!
 ```
@@ -39,6 +57,13 @@ apt-get install timidity
 ```
 Once ready, you can synthesize sounds from midi files by doing:
 ```
-timidity <YOUR_MIDI_FILE> -Ow
+timidity <YOUR_MIDI_FILE> -Ow -o <OUTFILE>
 ```
 An output .wav file will be created in the same directory as your midi file.
+
+
+## Authors
+* **Michael Seaman** - [Github](https://github.com/michaelseaman)
+* **Aaron Grisez** - [Qhord](https://www.qhord.com/)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
