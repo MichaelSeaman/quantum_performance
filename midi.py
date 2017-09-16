@@ -26,6 +26,9 @@ class Note:
         self.noteEvent_on = noteEvent_on
         self.noteEvent_off = noteEvent_off
 
+    def __lt__(self, other):
+        return (self.tick < other.tick)
+
     def onTimeMillis(self, tempoMap):
         return tempoMap.millisAtTick(self.tick)
 
@@ -33,7 +36,7 @@ class Note:
         return tempoMap.millisAtTick(self.tick + self.duration) - self.onTimeMillis(tempoMap)
 
     def octave(self):
-        return (self.pitch / 12) - 1
+        return (self.pitch // 12) - 1
 
     def letter(self):
         return self.noteLetters[self.pitch % 12]
@@ -48,14 +51,13 @@ class Note:
         return "%s%s%s" % (self.letter(), self.octave(), self.sharp())
 
     def toString(self, tempoMap):
-        return "%s,%s,%s,%s,%s,%s,%s,%s" % (\
+        return "%s,%s,%s,%s,%s,%s,%s" % (\
             self.tick,
             self.onTimeMillis(tempoMap),
             self.duration,
             self.durationMillis(tempoMap),
             self.pitch,
             self.velocity,
-            self.pitch,
             self.track)
 
 

@@ -9,8 +9,6 @@
 import sys
 from midi import *
 
-# TODO: seperate read/writing from the time conversion
-
 if len(sys.argv) <= 1:
     print("Input file needed.")
     sys.exit(0)
@@ -33,6 +31,7 @@ for i, row in enumerate(rows):
     if rowType == "Header":
         tpqn = int(cells[5]) # set tickcells per quarter note
         tempoMap.tpqn = tpqn
+        nTracks = int(cells[4])
     elif rowType == "Tempo":
         tempo = int(cells[3])
         tempoMap.addTempo(tick, tempo)
@@ -54,3 +53,16 @@ for i, noteEvent_on in enumerate(noteEvents):
         notes.append(note)
         onTicks.append(note.tick)
         break
+
+# sort notes by onTick
+notes = [x for (y,x) in sorted(zip(onTicks, notes))]
+onTicks.sort()
+tracklist = [ [] for _ in range(nTracks)]
+
+# creating tracklist
+for note in notes:
+    tracklist[note.track].append([note.octave(), note.pitch % 12,
+    note.onTimeMillis(tempoMap) / 1000, 0, note.noteEvent_on.rowNumber,
+    note.noteEvent_off.rowNumber ])
+
+print(tracklist)
