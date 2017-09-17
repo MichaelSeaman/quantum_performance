@@ -9,6 +9,7 @@ class QsysInterface():
         Takes tracklist as a parameter in constructor
         """
         self.measurements = tracklist
+
     def setFirstMeasurement(self):
         for i in range(len(self.measurements)):
             if (len(self.measurements[i]) == 0):
@@ -44,7 +45,7 @@ class QsysInterface():
         self.next_measurement[3] = self.sys.measure(self.next_measurement[1])[1]
         self.i += 1
         if self.i < len(self.current_track):
-            self.next_measurement = self.current_track[i]
+            self.next_measurement = self.current_track[self.i]
             print("Moving to next measurement")
         else:
             self.next_measurement = [0,0,tf + 5,0]
@@ -55,21 +56,29 @@ class QsysInterface():
         [octave, pitch, time, output, etc...]
         """
         j = 0
+        self.setCurrentTrack()
         self.setFirstMeasurement()
         self.setFinalTime()
         for track in self.measurements: #Separate each track into a single list of measurements
             print("Working on Track " + str(j))
-            self.next_mesaurement = self.current_track[0]
-            self.setQsys()
-            self.i = 0
-            while self.sys.time < self.tf: #Loop over all time steps
-                print(self.sys.time)
-                if (self.sys.time > self.next_measurement[2]): #check if system time is close to measurement time
-                    self.doMeasurement()
-                self.sys.run()
-            j += 1
-            if j < len(self.measurements):
-                self.next_measurement = self.measurements[j][0]
+            self.current_track = track
+            if len(self.current_track) == 0:
+                continue
+                j += 1
+            else:
+                self.next_measurement = self.current_track[0]
+                self.setQsys()
+                self.i = 0
+                while self.sys.time < self.tf: #Loop over all time steps
+                    if (self.sys.time > self.next_measurement[2]): #check if system time is close to measurement time
+                        self.doMeasurement()
+                    self.sys.run()
+                j += 1
+                if j < len(self.measurements):
+                    if not self.measurements[j]:
+                        continue
+                    else:
+                        self.next_measurement = self.measurements[j][0]
         print(self.measurements)
 
 if __name__ == "__main__":
