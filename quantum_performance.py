@@ -5,6 +5,7 @@ import os
 import getopt
 import subprocess
 from csv_to_tracklist import csv_to_tracklist
+from csv_to_tracklist import getEndOfTracklist
 from rewrite_csv import rewrite_csv
 
 MIDI_INPUT_FILE = "testfiles/Test_midi_waldstein.mid"
@@ -67,6 +68,8 @@ def main(argv):
     # prepping midicsv data for qsys
     rows = open(csvFileName, encoding="latin-1").read().splitlines()
     tracklist = csv_to_tracklist(rows)
+
+    endOfTracklist = getEndOfTracklist(tracklist)
 
     #################################################
 
