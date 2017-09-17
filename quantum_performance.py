@@ -76,8 +76,8 @@ def main(argv):
 
     # QSYS MAGIC GOES HERE. tracklist SHOULD BE EDITTED
 
-    quantum_translator = QsysInterface(tracklist)
-    quantum_translator.run() 
+    quantum_translator = QsysInterface(tracklist, endOfTracklist)
+    quantum_translator.run()
     tracklist = quantum_translator.measurements
 
     #################################################
