@@ -7,6 +7,7 @@ import subprocess
 from csv_to_tracklist import csv_to_tracklist
 from csv_to_tracklist import getEndOfTracklist
 from rewrite_csv import rewrite_csv
+from qsys_interface import QsysInterface
 
 MIDI_INPUT_FILE = "testfiles/Test_midi_waldstein.mid"
 INPUT_FILE_PROVIDED = False
@@ -74,6 +75,10 @@ def main(argv):
     #################################################
 
     # QSYS MAGIC GOES HERE. tracklist SHOULD BE EDITTED
+
+    quantum_translator = QsysInterface(tracklist)
+    quantum_translator.run() 
+    tracklist = quantum_translator.measurements
 
     #################################################
 
