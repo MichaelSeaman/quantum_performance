@@ -4,19 +4,28 @@ import numpy as np
 
 class QsysInterface():
 
-    def __init__(self, tracklist, tf):
+    def __init__(self, tracklist):
         """
         Takes tracklist as a parameter in constructor
         """
         self.measurements = tracklist
-        self.tf = tf
-
     def setFirstMeasurement(self):
         for i in range(len(self.measurements)):
             if (len(self.measurements[i]) == 0):
                 pass
             else:
                 self.nextMeasurement = self.measurements[i]
+
+    def setFinalTime(self):
+        tf = 0
+        for track in self.measurements:
+            if(not track):
+                # Empty list
+                continue
+            lastnote = track[-1]
+            if(tf < lastnote[2]):
+                tf = lastnote[2]
+        self.tf = tf
 
     def setQsys(self):
         """

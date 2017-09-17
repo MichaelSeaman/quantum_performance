@@ -57,16 +57,3 @@ def csv_to_tracklist(rows):
         note.noteEvent_off.rowNumber ])
 
     return tracklist
-
-def getEndOfTracklist(tracklist):
-    # Takes a tracklist, returns the last second of any of the tracks
-    end = 0
-    for track in tracklist:
-        if(not track):
-            # Empty list
-            continue
-        lastnote = track[-1]
-        if(end < lastnote[2]):
-            end = lastnote[2]
-    return end
-    pass

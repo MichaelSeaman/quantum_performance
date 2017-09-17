@@ -5,7 +5,6 @@ import os
 import getopt
 import subprocess
 from csv_to_tracklist import csv_to_tracklist
-from csv_to_tracklist import getEndOfTracklist
 from rewrite_csv import rewrite_csv
 from qsys_interface import QsysInterface
 
@@ -70,13 +69,11 @@ def main(argv):
     rows = open(csvFileName, encoding="latin-1").read().splitlines()
     tracklist = csv_to_tracklist(rows)
 
-    endOfTracklist = getEndOfTracklist(tracklist)
-
     #################################################
 
     # QSYS MAGIC GOES HERE. tracklist SHOULD BE EDITTED
 
-    quantum_translator = QsysInterface(tracklist, endOfTracklist)
+    quantum_translator = QsysInterface(tracklist)
     quantum_translator.run()
     tracklist = quantum_translator.measurements
 
