@@ -4,7 +4,8 @@ import sys
 import os
 import getopt
 import subprocess
-from csv_to_tracklist import csv_to_tracklist
+from csv_processing import csv_to_tracklist
+from csv_processing import getKeySigniture
 from rewrite_csv import rewrite_csv
 from qsys_interface import QsysInterface
 
@@ -68,6 +69,7 @@ def main(argv):
     # prepping midicsv data for qsys
     rows = open(csvFileName, encoding="latin-1").read().splitlines()
     tracklist = csv_to_tracklist(rows)
+    keysig = getKeySigniture(rows)
 
     #################################################
 
