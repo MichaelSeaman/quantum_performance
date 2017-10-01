@@ -1,16 +1,31 @@
 import Qsys
 import numpy as np
+import hamiltonians
 #import csv_to_tracklist
 
 class QsysInterface():
+"""
+This class sits on top of the Qsys module to allow for easy access using common functions
 
-    def __init__(self, tracklist):
+Currently, this module allows users to access Qsys through the following functions:
+-----------------------------------------------------------------------------------
+1. csv_to_tracklist - 
+"""
+
+    def __init__(self, tracklist=None):
         """
         Takes tracklist as a parameter in constructor
+
+        Tracklist Format:
+        [[[ 
         """
         self.measurements = tracklist
+        self.hamiltonians = hamiltonians.hamiltonian()
 
     def setFirstMeasurement(self):
+        """
+        This function will extract the first 
+        """
         for i in range(len(self.measurements)):
             if (len(self.measurements[i]) == 0):
                 pass
@@ -32,7 +47,7 @@ class QsysInterface():
         """
         Setup quantum system, needs to be called for each track
         """
-        self.sys = Qsys.Qsys(12, [1,0,0,0,0,0,0,0,0,0,0,0], 0.01, 6, [10,0,3,0,9,2,0,8,0,2,1,6], None, None, 0, 7, argHamiltonian=None)
+        self.sys = Qsys.Qsys(12, [1,0,0,0,0,0,0,0,0,0,0,0], 0.01, 6, [10,0,3,0,9,2,0,8,0,2,1,6], None, None, 0, 7, argHamiltonian=self.hamiltonians.CJB)
 
     def setCurrentTrack(self):
         self.current_track = None

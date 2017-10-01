@@ -58,6 +58,7 @@ class Qsys:
             self.hamiltonian = argHamiltonian
         self.conditional_probabilities = setup.conditional_probs(self.spectrum)
         self.POVMs = setup.POVMs(self.spectrum, self.conditional_probabilities)
+        self.set_schrodinger()
 
     def update_state(self, new_state):
         """
@@ -91,7 +92,13 @@ class Qsys:
         norm = np.linalg.norm(state)
         return state / norm
 
-    def schrodinger(self, psi, t):
+    def set_schrodinger(self):
+        if type(self.hamiltonian) == type(np.array([0])):
+            self.schrodinger = self.schrodinger_const_hamiltonian
+        else:
+            self.schrodinger = self.schrodinger_time_hamiltonian
+
+    def schrodinger_const_hamiltonian(self, psi, t):
         """
         Schrodinger Equation
 
@@ -108,6 +115,26 @@ class Qsys:
                 differential time step for wavefunction evolution
         """
         return 1 / (1j) * np.dot(self.hamiltonian, psi)
+
+    def schrodinger_time_hamiltonian(self, psi, t):
+        """
+        Schrodinger Equation
+
+        Parameters:
+        -----------
+            psi: vector
+                initial wavefunction to evolve
+            t: scalar, np.float
+                time for evaluation
+
+        Returns:
+        --------
+            vector
+                differential time step for wavefunction evolution
+        """
+        return 1 / (1j) * np.dot(self.hamiltonian(t), psi)
+
+
 
     def rk4_step(self, u, t, du, delta_t):
         """
