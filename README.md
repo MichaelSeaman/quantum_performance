@@ -5,13 +5,6 @@ Handing midi files to an electron
 
 Aaron, this is where you're the expert.
 
-# Temp
-Run webserver with:
-```
-FLASK_APP=server.py flask run
-```
-
-
 ## Dependencies
 
 To get started, quantum performance will need the following command line
