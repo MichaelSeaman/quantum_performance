@@ -55,12 +55,10 @@ class QsysInterface():
         """
         Called whenever measurement condition is reached (ie: sys.time > next_measurement.time)
         """
-        print("Measuring")
         self.next_measurement[3] = self.sys.measure(self.next_measurement[1])[1]
         self.i += 1
         if self.i < len(self.current_track):
             self.next_measurement = self.current_track[self.i]
-            print("Moving to next measurement")
         else:
             self.next_measurement = [0,0,self.tf + 5,0]
 
@@ -93,7 +91,6 @@ class QsysInterface():
                         continue
                     else:
                         self.next_measurement = self.measurements[j][0]
-        print(self.measurements)
 
 if __name__ == "__main__":
     pass
