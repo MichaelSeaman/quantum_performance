@@ -4,27 +4,27 @@ import hamiltonians
 #import csv_to_tracklist
 
 class QsysInterface():
-"""
-This class sits on top of the Qsys module to allow for easy access using common functions
+    """
+    This class sits on top of the Qsys module to allow for easy access using common functions
 
-Currently, this module allows users to access Qsys through the following functions:
------------------------------------------------------------------------------------
-1. csv_to_tracklist - 
-"""
+    Currently, this module allows users to access Qsys through the following functions:
+    -----------------------------------------------------------------------------------
+    1. csv_to_tracklist -
+    """
 
     def __init__(self, tracklist=None):
         """
         Takes tracklist as a parameter in constructor
 
         Tracklist Format:
-        [[[ 
+        [[[
         """
         self.measurements = tracklist
         self.hamiltonians = hamiltonians.hamiltonian()
 
     def setFirstMeasurement(self):
         """
-        This function will extract the first 
+        This function will extract the first
         """
         for i in range(len(self.measurements)):
             if (len(self.measurements[i]) == 0):
