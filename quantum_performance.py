@@ -60,31 +60,19 @@ def main(argv):
         print("$ python quantum_performance.py -i input.mid -w output_wav_file_name.wav")
 
     # run midi to csv
-    midiInputFileName, _ = os.path.splitext(os.path.basename(MIDI_INPUT_FILE))
-    csvFileName = os.path.join( os.getcwd(), midiInputFileName + ".csv")
-
+    csvFileName = midi_input_file(MIDI_INPUT_FILE)
     print("Creating midicsv file at ", csvFileName)
-    os.system("midicsv {} {}".format(MIDI_INPUT_FILE, csvFileName))
 
     # prepping midicsv data for qsys
-    rows = open(csvFileName, encoding="latin-1").read().splitlines()
-    tracklist = csv_to_tracklist(rows)
-    keysig = getKeySigniture(rows)
+    print("Preprocessing Data")
+    tracklist, keysig = preprocess(csvFileName)
 
-    #################################################
-
-    # QSYS MAGIC GOES HERE. tracklist SHOULD BE EDITTED
-
-    quantum_translator = QsysInterface(tracklist)
-    quantum_translator.run()
-    tracklist = quantum_translator.measurements
-
-    #################################################
+    print("Performing Qupdate")
+    tracklist = quantum_update(tracklist)
 
     # Re-writing csv
-    outputCSVLines = rewrite_csv(csvFileName, tracklist)
-    with open(csvFileName, 'w') as f:
-        f.write("\n".join(outputCSVLines))
+    print("Updating CSV")
+    write_output(csvFileName, tracklist)
 
     # Writing midi
     if(not OUTPUT_MIDI):
@@ -93,7 +81,7 @@ def main(argv):
         OUTPUT_MIDI_FILE_NAME = os.path.join( os.getcwd(), outputWavFileName + ".mid")
 
     print("Creating quanumized midi file at ", OUTPUT_MIDI_FILE_NAME)
-    os.system("csvmidi {} {}".format(csvFileName, OUTPUT_MIDI_FILE_NAME))
+    csv_to_midi(csvFileName, OUTPUT_MIDI_FILE_NAME)
     os.remove(csvFileName)
     #call Timidity
 
@@ -115,6 +103,31 @@ def main(argv):
         os.system("timidity {} -Ow -o {}".format(OUTPUT_MIDI_FILE_NAME, OUTPUT_WAV_FILE_NAME))
 
     print("All done.")
+
+def midi_to_csv(midi_input_file):
+    midiInputFileName, _ = os.path.splitext(os.path.basename(midi_input_file))
+    csvFileName = os.path.join( os.getcwd(), midiInputFileName + ".csv")
+    os.system("midicsv {} {}".format(midi_input_file, csvFileName))
+    return csvFileName
+
+def preprocess(csvFileName):
+    rows = open(csvFileName, encoding="latin-1").read().splitlines()
+    tracklist = csv_to_tracklist(rows)
+    keysig = getKeySigniture(rows)
+    return tracklist, keysig
+
+def quantum_update(tracklist):
+    quantum_translator = QsysInterface(tracklist)
+    quantum_translator.run()
+    return quantum_translator.measurements
+
+def write_output(csvFileName, tracklist):
+    outputCSVLines = rewrite_csv(csvFileName, tracklist)
+    with open(csvFileName, 'w') as f:
+        f.write("\n".join(outputCSVLines))
+
+def csv_to_midi(csvFileName, outputMidiFileName):
+    os.system("csvmidi {} {}".format(csvFileName, outputMidiFileName))
 
 
 if __name__ == "__main__":

@@ -29,8 +29,17 @@ def serve_main():
         in_filepath = safe_join(UPLOAD_FOLDER, filename)
         out_filepath = safe_join(DOWNLOAD_FOLDER, filename)
         f.save(in_filepath)
+
+
+
+
+
         return redirect(url_for('uploaded_file', filename=filename))
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
+
+@app.route('/downloads/<filename>')
+def ready_file(filename):
+    return send_from_directory(DOWNLOAD_FOLDER, filename)
