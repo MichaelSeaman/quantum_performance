@@ -7,7 +7,7 @@ class hamiltonian():
         self.period = 48. / self.tau
         self.omega = 5
         #Define the Ending thresholds in units of seconds
-        self.I = np.array([i/self.tau for i in [15, 23, 31, 35, 37, 39, 43, 45, 47]])
+        self.I = np.array([i/self.tau for i in [15, 23, 31, 35, 37, 39, 43, 45, 47, 49]])
         self.C7 = [10,0,5,4,8,2,0,9,0,1,8,0]
         self.F7 = [9,0,1,8,0,10,0,5,4,8,2,0]
         self.G7 = [2,0,9,0,1,8,0,10,0,5,4,8]
@@ -26,7 +26,7 @@ class hamiltonian():
             t: time IN UNITS OF SECONDS
         """
         red_t = t % self.period
-        chord = self.I[self.I > red_t][0]
+        chord = self.I[self.I >= red_t][0]
         I_temp = list(self.I)
         loc = I_temp.index(chord) 
         if loc == 0 or loc == 2 or loc == 5:
@@ -37,6 +37,8 @@ class hamiltonian():
             return self.HG
         elif loc == 6:
             return self.Hd
+        else:
+            return self.HC
         if t > self.period:
             t = 0 
         
