@@ -46,7 +46,7 @@ class QsysInterface():
         """
         Setup quantum system, needs to be called for each track
         """
-        self.sys = Qsys.Qsys(12, [1,0,0,0,0,0,0,0,0,0,0,0], 0.001, 10, [10,0,3,0,9,2,0,8,0,2,1,6], None, None, 0, 7, argHamiltonian=self.hamiltonians.CJB)
+        self.sys = Qsys.Qsys(12, [1,0,0,0,0,0,0,0,0,0,0,0], 0.01, 10, [10,0,3,0,9,2,0,8,0,2,1,6], None, None, 0, 7, argHamiltonian=self.hamiltonians.CJB)
 
     def setCurrentTrack(self):
         self.current_track = None
