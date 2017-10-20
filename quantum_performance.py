@@ -59,8 +59,8 @@ def main(argv):
         print("output by adding -m or -w.  EXAMPLE: ")
         print("$ python quantum_performance.py -i input.mid -w output_wav_file_name.wav")
 
-    # run midi to csv
-    csvFileName = midi_input_file(MIDI_INPUT_FILE)
+    csvFileName = create_CSV_Filepath(MIDI_INPUT_FILE)
+    midi_to_csv(MIDI_INPUT_FILE, csvFileName)
     print("Creating midicsv file at ", csvFileName)
 
     # prepping midicsv data for qsys
@@ -104,11 +104,13 @@ def main(argv):
 
     print("All done.")
 
-def midi_to_csv(midi_input_file):
+def create_CSV_Filepath(midi_input_file):
     midiInputFileName, _ = os.path.splitext(os.path.basename(midi_input_file))
     csvFileName = os.path.join( os.getcwd(), midiInputFileName + ".csv")
-    os.system("midicsv {} {}".format(midi_input_file, csvFileName))
     return csvFileName
+
+def midi_to_csv(midi_input_file, csvFileName):
+    os.system("midicsv {} {}".format(midi_input_file, csvFileName))
 
 def preprocess(csvFileName):
     rows = open(csvFileName, encoding="latin-1").read().splitlines()
