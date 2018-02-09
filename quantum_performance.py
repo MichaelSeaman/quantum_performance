@@ -15,6 +15,7 @@ OUTPUT_MIDI = False
 OUTPUT_MIDI_FILE_NAME = "output.mid"
 OUTPUT_WAV = False
 OUTPUT_WAV_FILE_NAME = "output.wav"
+SOUND_FONT = '/usr/share/sounds/sf2/FluidR3_GM.sf2'
 
 def main(argv):
     global MIDI_INPUT_FILE
@@ -111,6 +112,12 @@ def create_CSV_Filepath(midi_input_file):
 
 def midi_to_csv(midi_input_file, csvFileName):
     os.system("midicsv {} {}".format(midi_input_file, csvFileName))
+
+def midi_to_wav(midi_input_file, wav_output_file, sound_font=SOUND_FONT):
+    os.system("fluidsynth -F {} {} {}".format(wav_output_file, sound_font, wav_output_file))
+
+def wav_to_mp3(wav_input_file, mp3_output_file):
+    os.system("lame -f -V9 {} {}".format(wav_input_file, mp3_output_file))
 
 def preprocess(csvFileName):
     rows = open(csvFileName, encoding="latin-1").read().splitlines()
