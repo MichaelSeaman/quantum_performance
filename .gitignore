@@ -132,3 +132,7 @@ venv.bak/
 # user specific
 webserver/uploads/
 webserver/downloads/
+*.mid
+*.wav
+*.mp3
+
