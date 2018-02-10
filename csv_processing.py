@@ -67,6 +67,7 @@ def getKeySigniture(rows):
         track = int(cells[0])
         tick = int(cells[1])
         rowType = cells[2]
+        key = 0
         if rowType == "Key_signature":
             key = int(cells[3])
             tonality = cells[4]
