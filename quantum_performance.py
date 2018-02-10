@@ -113,7 +113,7 @@ def midi_to_csv(midi_input_file, csvFileName):
     os.system("midicsv {} {}".format(midi_input_file, csvFileName))
 
 def midi_to_wav(midi_input_file, wav_output_file, sound_font):
-    os.system("fluidsynth -F {} {} {}".format(wav_output_file, sound_font, wav_output_file))
+    os.system("fluidsynth -F {} {} {}".format(wav_output_file, sound_font, midi_input_file))
 
 def wav_to_mp3(wav_input_file, mp3_output_file):
     os.system("lame -f -V9 {} {}".format(wav_input_file, mp3_output_file))
