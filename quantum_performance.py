@@ -129,9 +129,11 @@ def quantum_update(tracklist):
     quantum_translator.run()
     return quantum_translator.measurements
 
-def write_output(csvFileName, tracklist):
+def write_output(csvFileName, tracklist, outputCsvFileName = ""):
     outputCSVLines = rewrite_csv(csvFileName, tracklist)
-    with open(csvFileName, 'w') as f:
+    if(not outputCsvFileName):
+        outputCsvFileName = csvFileName
+    with open(outputCsvFileName, 'w') as f:
         f.write("\n".join(outputCSVLines))
 
 def csv_to_midi(csvFileName, outputMidiFileName):
