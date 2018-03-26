@@ -29,21 +29,22 @@ def csv_to_tracklist(rows):
         elif rowType in ("Note_on_c","Note_off_c"):
             pitch    = int(cells[4])
             velocity = int(cells[5])
-            noteEvents.append(NoteEvent(track, tick, pitch, velocity, i))
+            isNoteOff = (rowType=="Note_off_c" or velocity==0)
+            noteEvents.append(NoteEvent(track, tick, pitch, velocity, i, isNoteOff))
         elif rowType == "Key_signature":
             key = int(cells[3])
             tonality = cells[4]
 
     # Create notes by pairing noteOn and NoteOff events
-    for i, noteEvent_on in enumerate(noteEvents):
-        if noteEvent_on.velocity ==0:
+    for i, noteEvent_i in enumerate(noteEvents):
+        if noteEvent_i.isNoteOff:
             continue
-        for noteEvent_off in noteEvents[i:]:
-            if (noteEvent_off.velocity != 0 or
-            noteEvent_off.track != noteEvent_on.track or
-            noteEvent_off.pitch != noteEvent_on.pitch):
+        for noteEvent_pair in noteEvents[i:]:
+            if ( (not noteEvent_pair.isNoteOff) or
+            noteEvent_pair.track != noteEvent_i.track or
+            noteEvent_pair.pitch != noteEvent_i.pitch):
                 continue
-            note = Note(noteEvent_on, noteEvent_off)
+            note = Note(noteEvent_i, noteEvent_pair)
             notes.append(note)
             onTicks.append(note.tick)
             break

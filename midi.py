@@ -6,12 +6,13 @@
 # File contains python classes for midi objects
 
 class NoteEvent:
-    def __init__(self, track=0, tick=0, pitch=64, velocity=127, rowNumber=0):
+    def __init__(self, track=0, tick=0, pitch=64, velocity=127, rowNumber=0, isNoteOff=False):
         self.track    = track
         self.tick     = tick
         self.pitch    = pitch
         self.velocity = velocity
         self.rowNumber = rowNumber
+        self.isNoteOff = isNoteOff
 
 class Note:
     noteLetters  = ["C","C","D","D","E","F","F","G","G","A","A","B"]
