@@ -7,7 +7,7 @@ def rewrite_csv(csv_in, tracklist):
             quantum_note = int(measurement[3])
             note_on_line_number = measurement[4]
             note_off_line_number = measurement[5]
-            octave = int(measurement[0])
+            octave = int(measurement[0]) + 1
 
             for line_number in (note_off_line_number, note_on_line_number):
                 row = rows[line_number]
